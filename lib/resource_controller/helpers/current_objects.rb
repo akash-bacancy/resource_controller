@@ -61,7 +61,7 @@ module ResourceController
         #
         def object_params
           white_listed_params_method_name = "#{object_name}_params"
-          params[object_name].nil? || !self.class.method_defined?(white_listed_params_method_name) ? params[object_name] : self.send(white_listed_params_method_name)
+          (!self.respond_to?(white_listed_params_method_name, true) || params[object_name].nil? ? params[object_name] : self.send(white_listed_params_method_name))
         end
 
         # Builds the object, but doesn't save it, during the new, and create action.
